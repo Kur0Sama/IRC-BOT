@@ -6,7 +6,7 @@ const client = new Discord.Client();
 
 let channels = JSON.parse(fs.readFileSync('channels.json', 'utf8'));
 
-const TARGET_MINUTE = 10; // Minute of the hour when the chest will refresh, 30 means 1:30, 2:30, etc.
+const TARGET_MINUTE = 14; // Minute of the hour when the chest will refresh, 30 means 1:30, 2:30, etc.
 const OFFSET = 0; // Notification will be sent this many minutes before the target time, must be an integer
 const NOTIFY_MINUTE = (TARGET_MINUTE < OFFSET ? 60 : 0) + TARGET_MINUTE - OFFSET;
 
@@ -17,7 +17,8 @@ setInterval(function () {
         client.channels.get(i).send({
             embed: {
                 description: `\`\`\`asciidoc\n= COMMENT M'INVITER =\nLien : https://discordapp.com/oauth2/authorize?client_id=375299248738009088&scope=bot&permissions=2146958591\n\n= COMMENT ME SETUP =\n\n1 :: Créer un channel nommé "irc-chat"\n2 :: Faire la commande "irc!sync"\n3 :: Allez dans le channel et testez !\`\`\``,
-                color: 0x42adf4
+                thumbnail: client.user.avatarURL,
+                color: 0x3f4bff
             }
         });
     });
@@ -53,13 +54,13 @@ client.on('message', message => {
             if (message.author.id == '350710888812249101') {
                 embed.setAuthor(`${auteur.username} | ADMIN | ${message.guild.name}`, auteur.avatarURL);
                 embed.setDescription(`\`\`\`asciidoc\n= Le ${moment().format('LLLL')} =\n\n${message.content}\`\`\``);
-                embed.setColor(0xf42c2c);
+                embed.setColor(0x3fff55);
                 embed.setThumbnail(auteur.avatarURL);
                 client.channels.get(i).send(embed);
             } else {
                 embed.setAuthor(`${auteur.username} | USER | ${message.guild.name}`, auteur.avatarURL);
                 embed.setDescription(`\`\`\`asciidoc\n= Le ${moment().format('LLLL')} =\n\n${message.content}\`\`\``);
-                embed.setColor(0xff7344);
+                embed.setColor(0xff3fac);
                 embed.setThumbnail(auteur.avatarURL);
                 client.channels.get(i).send(embed);
             }
