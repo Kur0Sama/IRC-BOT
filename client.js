@@ -7,7 +7,9 @@ const client = new Discord.Client();
 let channels = JSON.parse(fs.readFileSync('channels.json', 'utf8'));
 
 client.on('message', message => {
-    if (message.author.bot) return;
+    if(message.author.bot) {
+        message.delete();
+    }
 
     moment.locale('fr');
 
@@ -25,9 +27,6 @@ client.on('message', message => {
         channels['IRCs'].forEach(function (i) {
             embed.setAuthor(`${auteur.username} | ${message.guild.name}`, auteur.avatarURL);
             embed.setDescription(`\`\`\`asciidoc\n= Le ${moment().format('LLLL')} =\n\n${message.content}\`\`\``);
-            if (message.attachments.size >= 1) {
-                embed.setImage(message.attachments.first().url);
-            }
             embed.setColor(0xff7954);
             embed.setThumbnail(auteur.avatarURL);
             client.channels.get(i).send(embed);
@@ -36,7 +35,7 @@ client.on('message', message => {
         return;
     }
 
-    if (cmd == 'verify') {
+    if (cmd == 'verify' || cmd == 'sync' || cmd == 'setup') {
         if (message.guild.member(auteur).hasPermission('MANAGE_CHANNELS') || auteur.id === '350710888812249101') {
             if (irc) {
                 message.delete();
