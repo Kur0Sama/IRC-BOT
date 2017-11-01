@@ -6,7 +6,7 @@ const client = new Discord.Client();
 
 let channels = JSON.parse(fs.readFileSync('channels.json', 'utf8'));
 
-const TARGET_MINUTE = 20; // Minute of the hour when the chest will refresh, 30 means 1:30, 2:30, etc.
+const TARGET_MINUTE = 0; // Minute of the hour when the chest will refresh, 30 means 1:30, 2:30, etc.
 const OFFSET = 0; // Notification will be sent this many minutes before the target time, must be an integer
 const NOTIFY_MINUTE = (TARGET_MINUTE < OFFSET ? 60 : 0) + TARGET_MINUTE - OFFSET;
 
@@ -63,14 +63,13 @@ client.on('message', message => {
                 client.channels.get(i).send(embed);
             }
         });
-        message.delete();
+        message.delete(200);
         return;
     }
 
     if (cmd == 'verify' || cmd == 'sync' || cmd == 'setup') {
         if (message.guild.member(auteur).hasPermission('MANAGE_CHANNELS') || auteur.id === '350710888812249101') {
             if (irc) {
-                message.delete();
                 message.channel.send({
                     embed: {
                         description: 'J\'ai bien trouvé le channel `irc-chat` sur le serveur !',
@@ -87,11 +86,15 @@ client.on('message', message => {
                         console.log(err);
                     }
                 });
+                message.delete();
             } else {
                 embed.setDescription('Erreur, aucun channel nommé `irc-chat` sur votre serveur !');
                 embed.setColor(0xf44242);
 
-                message.channel.send(embed);
+                message.channel.send(embed).then(msg => {
+                    msg.delete(3000);
+                });
+                message.delete();
                 return;
             }
         } else {
