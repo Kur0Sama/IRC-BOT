@@ -7,7 +7,7 @@ const client = new Discord.Client();
 let channels = JSON.parse(fs.readFileSync('channels.json', 'utf8'));
 
 client.on('message', message => {
-    if(message.author.bot) {
+    if(message.author.bot && message.author.id != client.user.id) {
         message.delete();
     }
 
