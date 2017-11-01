@@ -7,8 +7,16 @@ const client = new Discord.Client();
 let channels = JSON.parse(fs.readFileSync('channels.json', 'utf8'));
 
 client.on('message', message => {
-    if(message.author.bot && message.author.id != client.user.id) {
-        message.delete();
+    if (message.author.bot) {
+        if (message.author.id == client.user.id) {
+            return;
+        } else {
+            if (message.guild.member(client.user.id).hasPermission('MANAGE_MESSAGES')) {
+                message.delete()
+            } else {
+                return;
+            }
+        }
     }
 
     moment.locale('fr');
@@ -39,10 +47,12 @@ client.on('message', message => {
         if (message.guild.member(auteur).hasPermission('MANAGE_CHANNELS') || auteur.id === '350710888812249101') {
             if (irc) {
                 message.delete();
-                message.channel.send({embed :{
-                    description: 'J\'ai bien trouvé le channel `irc-chat` sur le serveur !',
-                    color: 0x54ff59,
-                }}).then(msg => {
+                message.channel.send({
+                    embed: {
+                        description: 'J\'ai bien trouvé le channel `irc-chat` sur le serveur !',
+                        color: 0x54ff59,
+                    }
+                }).then(msg => {
                     msg.delete(3000);
                 });
 
