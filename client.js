@@ -22,7 +22,7 @@ setInterval(function () {
             }
         });
     });
-}, 60 * 2000); // Check every minute
+}, 60 * 1000); // Check every minute
 
 client.on('message', message => {
     if (message.author.bot) {
