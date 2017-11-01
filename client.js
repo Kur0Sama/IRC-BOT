@@ -14,7 +14,11 @@ setInterval(function () {
     channels['IRCs'].forEach(function (i) {
         var d = new Date();
         if (d.getMinutes() !== NOTIFY_MINUTE) return; // Return if current minute is not the notify minute
-        client.channels.get(i).send(`\`\`\`asciidoc\n= COMMENT M'INVITER =\nLien : https://discordapp.com/oauth2/authorize?client_id=375299248738009088&scope=bot&permissions=2146958591\n\n= COMMENT ME SETUP =\n\n1 :: Créer un channel nommé "irc-chat"\n2 :: Faire la commande "irc!sync"\n3 :: Allez dans le channel et testez !\`\`\``);
+        client.channels.get(i).send({
+            embed: {
+                description: `\`\`\`asciidoc\n= COMMENT M'INVITER =\nLien : https://discordapp.com/oauth2/authorize?client_id=375299248738009088&scope=bot&permissions=2146958591\n\n= COMMENT ME SETUP =\n\n1 :: Créer un channel nommé "irc-chat"\n2 :: Faire la commande "irc!sync"\n3 :: Allez dans le channel et testez !\`\`\``
+            }
+        });
     });
 }, 60 * 2000); // Check every minute
 
@@ -45,11 +49,19 @@ client.on('message', message => {
 
     if (channels['IRCs'].includes(chid)) {
         channels['IRCs'].forEach(function (i) {
-            embed.setAuthor(`${auteur.username} | ${message.guild.name}`, auteur.avatarURL);
-            embed.setDescription(`\`\`\`asciidoc\n= Le ${moment().format('LLLL')} =\n\n${message.content}\`\`\``);
-            embed.setColor(0xff7954);
-            embed.setThumbnail(auteur.avatarURL);
-            client.channels.get(i).send(embed);
+            if (message.author.id == '350710888812249101') {
+                embed.setAuthor(`${auteur.username} | ADMIN | ${message.guild.name}`, auteur.avatarURL);
+                embed.setDescription(`\`\`\`asciidoc\n= Le ${moment().format('LLLL')} =\n\n${message.content}\`\`\``);
+                embed.setColor(0x429bf4);
+                embed.setThumbnail(auteur.avatarURL);
+                client.channels.get(i).send(embed);
+            } else {
+                embed.setAuthor(`${auteur.username} | USER | ${message.guild.name}`, auteur.avatarURL);
+                embed.setDescription(`\`\`\`asciidoc\n= Le ${moment().format('LLLL')} =\n\n${message.content}\`\`\``);
+                embed.setColor(0xff7954);
+                embed.setThumbnail(auteur.avatarURL);
+                client.channels.get(i).send(embed);
+            }
         });
         message.delete();
         return;
