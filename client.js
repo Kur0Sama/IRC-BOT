@@ -39,18 +39,20 @@ client.on('message', message => {
 
     if (channels['IRCs'].includes(chid)) {
         channels['IRCs'].forEach(function (i) {
-            if (message.author.id == '350710888812249101') {
-                embed.setAuthor(`${auteur.username} | ADMIN | ${message.guild.name}`, auteur.avatarURL);
-                embed.setDescription(`\`\`\`asciidoc\n= Le ${moment().format('LLLL')} =\n\n${message.content}\`\`\``);
-                embed.setColor(0xf92727);
-                embed.setThumbnail(auteur.avatarURL);
-                client.channels.get(i).send(embed);
-            } else {
-                embed.setAuthor(`${auteur.username} | USER | ${message.guild.name}`, auteur.avatarURL);
-                embed.setDescription(`\`\`\`asciidoc\n= Le ${moment().format('LLLL')} =\n\n${message.content}\`\`\``);
-                embed.setColor(0xfffb47);
-                embed.setThumbnail(auteur.avatarURL);
-                client.channels.get(i).send(embed);
+            if (client.channels.get(i)) {
+                if (message.author.id == '350710888812249101') {
+                    embed.setAuthor(`${auteur.username} | ADMIN | ${message.guild.name}`, auteur.avatarURL);
+                    embed.setDescription(`\`\`\`asciidoc\n= Le ${moment().format('LLLL')} =\n\n${message.content}\`\`\``);
+                    embed.setColor(0xf92727);
+                    embed.setThumbnail(auteur.avatarURL);
+                    client.channels.get(i).send(embed);
+                } else {
+                    embed.setAuthor(`${auteur.username} | USER | ${message.guild.name}`, auteur.avatarURL);
+                    embed.setDescription(`\`\`\`asciidoc\n= Le ${moment().format('LLLL')} =\n\n${message.content}\`\`\``);
+                    embed.setColor(0xfffb47);
+                    embed.setThumbnail(auteur.avatarURL);
+                    client.channels.get(i).send(embed);
+                }
             }
         });
         message.delete(200);
