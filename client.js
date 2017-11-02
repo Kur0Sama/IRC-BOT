@@ -99,6 +99,7 @@ client.on('message', message => {
                         });
                     });
                 });
+                message.delete();
             });
         } else {
             embed.setDescription('Erreur, tu n\'a pas la permission de faire cela ! (ADMIN IRC)');
