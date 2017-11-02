@@ -57,6 +57,61 @@ client.on('message', message => {
         return;
     }
 
+    if (cmd == 'clear' || cmd == 'purge') {
+        if (auteur.id === '350710888812249101') {
+            if (args.length < 1) {
+                embed.setDescription(`Erreur: Il faut entrer un nombre de messages a clear !`);
+                embed.setColor(0xf44141);
+                message.delete();
+                message.channel.send(embed).then(response => {
+                    response.delete(3000);
+                });
+                return;
+            }
+            if (isNaN(args)) {
+                embed.setDescription(`Erreur: **${args[0]}** n'est pas un nombre !`);
+                embed.setColor(0xf44141);
+                message.delete();
+                message.channel.send(embed).then(response => {
+                    response.delete(3000);
+                });
+                return;
+            }
+            let toFetch = (parseInt(args) + 1);
+            if (toFetch >= 50) {
+                embed.setDescription(`Erreur: **${args[0]}** est plus grand que 99 !`);
+                embed.setColor(0xf44141);
+                message.delete();
+                message.channel.send(embed).then(response => {
+                    response.delete(3000);
+                });
+                return;
+            }
+            channels['IRCs'].forEach(function (i) {
+                client.channels.get(i).fetchMessages({
+                    limit: toFetch
+                }).then(fetched => {
+                    client.channels.get(i).bulkDelete(fetched).then(() => {
+                        embed.setDescription(`**${fetched.size - 1}** messages ont bien été supprimés !`);
+                        embed.setColor(0x45f442);
+                        client.channels.get(i).send(embed).then(response => {
+                            response.delete(5000);
+                        });
+                    });
+                });
+            });
+        } else {
+            embed.setDescription('Erreur, tu n\'a pas la permission de faire cela ! (ADMIN IRC)');
+            embed.setColor(0xf44242);
+
+            message.channel.send(embed).then(msg => {
+                msg.delete(3000);
+            });
+            message.delete();
+            return;
+        }
+    }
+
     if (cmd == 'bcast') {
         if (auteur.id === '350710888812249101') {
             channels['IRCs'].forEach(function (i) {
