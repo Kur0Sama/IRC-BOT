@@ -37,6 +37,13 @@ client.on('message', message => {
 
     if (!channels['IRCs']) channels['IRCs'] = [];
 
+    channels['IRCs'].forEach(function (i) {
+        if (!client.channels.get(i)) {
+            let c = channels['IRCs'].indexOf(i);
+            channels['IRCs'].slice(c, 1);
+        }
+    });
+
     if (channels['IRCs'].includes(chid)) {
         channels['IRCs'].forEach(function (i) {
             if (client.channels.get(i)) {
