@@ -69,7 +69,7 @@ client.on('message', message => {
         return;
     }
 
-    if (cmd == 'clear' || cmd == 'purge') {
+    /*if (cmd == 'clear' || cmd == 'purge') {
         if (auteur.id === '350710888812249101') {
             if (args.length < 1) {
                 embed.setDescription(`Erreur: Il faut entrer un nombre de messages a clear !`);
@@ -110,6 +110,8 @@ client.on('message', message => {
                             response.delete(5000);
                         });
                     });
+                }).catch(err => {
+                    console.log(err);
                 });
                 message.delete();
             });
@@ -123,7 +125,7 @@ client.on('message', message => {
             message.delete();
             return;
         }
-    }
+    }*/
 
     if (cmd == 'bcast') {
         if (auteur.id === '350710888812249101') {
@@ -271,8 +273,12 @@ client.on('ready', () => {
     console.log('IRC Launched on multiple servers !');
 });
 
-client.on('error', (err) => {
-    console.log(err);
-});
+process.on('unhandledRejection', error => console.log(`unhandledRejection:\n${error.stack}`))
+    .on('uncaughtException', error => {
+        console.log(`uncaughtException:\n${error.stack}`);
+        process.exit();
+    })
+    .on('error', error => console.log(`Error:\n${error.stack}`))
+    .on('warn', error => console.log(`Warning:\n${error.stack}`));
 
 client.login(process.env.TOKEN);
