@@ -53,6 +53,9 @@ client.on('message', message => {
                     embed.setThumbnail(auteur.avatarURL);
                     client.channels.get(i).send(embed);
                 }
+            } else {
+                let c = channels['IRCs'].indexOf(i);
+                channels['IRCs'].slice(c, 1);
             }
         });
         message.delete(200);
