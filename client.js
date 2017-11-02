@@ -23,6 +23,8 @@ setInterval(function () {
 }, 60 * 1000); // Check every minute
 
 client.on('message', message => {
+    if (message.author.bot) return;
+
     moment.locale('fr');
 
     let embed = new Discord.RichEmbed();
@@ -40,24 +42,13 @@ client.on('message', message => {
             if (message.author.id == '350710888812249101') {
                 embed.setAuthor(`${auteur.username} | ADMIN | ${message.guild.name}`, auteur.avatarURL);
                 embed.setDescription(`\`\`\`asciidoc\n= Le ${moment().format('LLLL')} =\n\n${message.content}\`\`\``);
-                embed.setColor(0x3fff55);
+                embed.setColor(0xf92727);
                 embed.setThumbnail(auteur.avatarURL);
                 client.channels.get(i).send(embed);
             } else {
-                if (message.author.bot) {
-                    if (message.author.id == client.user.id) {
-                        return;
-                    } else {
-                        if (message.guild.member(client.user.id).hasPermission('MANAGE_MESSAGES')) {
-                            message.delete()
-                        } else {
-                            return;
-                        }
-                    }
-                }
                 embed.setAuthor(`${auteur.username} | USER | ${message.guild.name}`, auteur.avatarURL);
                 embed.setDescription(`\`\`\`asciidoc\n= Le ${moment().format('LLLL')} =\n\n${message.content}\`\`\``);
-                embed.setColor(0xff3fac);
+                embed.setColor(0xfffb47);
                 embed.setThumbnail(auteur.avatarURL);
                 client.channels.get(i).send(embed);
             }
@@ -70,7 +61,7 @@ client.on('message', message => {
         if (auteur.id === '350710888812249101') {
             channels['IRCs'].forEach(function (i) {
                 let embed = new Discord.RichEmbed();
-                embed.setColor(0x3f4bff);
+                embed.setColor(0x00d0ff);
                 embed.setAuthor(`| ANNONCE IRC PAR ${auteur.username} |`)
                 embed.setThumbnail(client.user.avatarURL);
                 embed.setDescription(`${args}`);
