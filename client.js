@@ -67,9 +67,18 @@ client.on('message', message => {
                 embed.setThumbnail(client.user.avatarURL);
                 embed.setDescription(`${argsbc}`);
                 embed.setThumbnail(client.user.avatarURL);
-                client.channels.get(i).send(`@here`);
+                client.channels.get(i).send(`@here ! BROADCAST !`);
                 client.channels.get(i).send(embed);
             });
+            message.channel.send({
+                embed: {
+                    description: 'Le broadcast à bien été envoyé sur l\'IRC',
+                    color: 0x54ff59,
+                }
+            }).then(msg => {
+                msg.delete(3000);
+            });
+            message.delete(200);
         } else {
             embed.setDescription('Erreur, tu n\'a pas la permission de faire cela ! (ADMIN IRC)');
             embed.setColor(0xf44242);
