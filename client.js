@@ -60,12 +60,11 @@ client.on('message', message => {
     if (cmd == 'bcast') {
         if (auteur.id === '350710888812249101') {
             channels['IRCs'].forEach(function (i) {
-                let argsbc = message.content.split(' ').slice(prefix.length + cmd.length);
                 let embed = new Discord.RichEmbed();
                 embed.setColor(0x00d0ff);
                 embed.setAuthor(`| ANNONCE IRC PAR ${auteur.username} |`)
                 embed.setThumbnail(client.user.avatarURL);
-                embed.setDescription(`${argsbc}`);
+                embed.setDescription(`${message.content.slice(prefix.length + cmd.length)}`);
                 embed.setThumbnail(client.user.avatarURL);
                 client.channels.get(i).send(`@here ! BROADCAST !`);
                 client.channels.get(i).send(embed);
