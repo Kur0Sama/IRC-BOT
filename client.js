@@ -6,7 +6,7 @@ const client = new Discord.Client();
 
 let channels = JSON.parse(fs.readFileSync('channels.json', 'utf8'));
 
-const TARGET_MINUTE = 0; // Minute of the hour when the chest will refresh, 30 means 1:30, 2:30, etc.
+const TARGET_MINUTE = 38; // Minute of the hour when the chest will refresh, 30 means 1:30, 2:30, etc.
 const OFFSET = 0; // Notification will be sent this many minutes before the target time, must be an integer
 const NOTIFY_MINUTE = (TARGET_MINUTE < OFFSET ? 60 : 0) + TARGET_MINUTE - OFFSET;
 
