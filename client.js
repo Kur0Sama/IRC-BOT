@@ -49,14 +49,14 @@ client.on('message', message => {
             if (client.channels.get(i)) {
                 if (message.author.id == '350710888812249101') {
                     embed.setAuthor(`${auteur.username} | ADMIN | ${message.guild.name}`, auteur.avatarURL);
-                    if (message.mentions.users.size < 1) {
-                        embed.setDescription(`\`\`\`asciidoc\n= Le ${moment().format('LLLL')} =\n\n${message.content}\`\`\``);
-                    } else {
-                        embed.setDescription(`\`\`\`asciidoc\n= Le ${moment().format('LLLL')} =\n\n${message.content}\`\`\`\n${message.mentions.users.first()}`);
-                    }
+                    embed.setDescription(`\`\`\`asciidoc\n= Le ${moment().format('LLLL')} =\n\n${message.content}\`\`\``);
                     embed.setColor(0xf92727);
                     embed.setThumbnail(auteur.avatarURL);
-                    client.channels.get(i).send(embed);
+                    client.channels.get(i).send(embed).then(() => {
+                        if (message.mentions.users.size >= 1) {
+                            client.channels.get(i).send(message.mentions.users.first() + `, Tu à été mentionné par ` + message.author);
+                        }
+                    });
                 } else {
                     embed.setAuthor(`${auteur.username} | USER | ${message.guild.name}`, auteur.avatarURL);
                     embed.setDescription(`\`\`\`asciidoc\n= Le ${moment().format('LLLL')} =\n\n${message.content}\`\`\``);
