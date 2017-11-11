@@ -59,14 +59,14 @@ client.on('message', message => {
                     client.channels.get(i).send(embed);
                 } else {
                     embed.setAuthor(`${auteur.username} | USER | ${message.guild.name}`, auteur.avatarURL);
-                    if (message.mentions.users.size < 1) {
-                        embed.setDescription(`\`\`\`asciidoc\n= Le ${moment().format('LLLL')} =\n\n${message.content}\`\`\``);
-                    } else {
-                        embed.setDescription(`\`\`\`asciidoc\n= Le ${moment().format('LLLL')} =\n\n${message.content}\`\`\`\n${message.mentions.users.first()}`);
-                    }
+                    embed.setDescription(`\`\`\`asciidoc\n= Le ${moment().format('LLLL')} =\n\n${message.content}\`\`\``);
                     embed.setColor(0xfffb47);
                     embed.setThumbnail(auteur.avatarURL);
-                    client.channels.get(i).send(embed);
+                    client.channels.get(i).send(embed).then(() => {
+                        if (message.mentions.users.size >= 1) {
+                            client.channels.get(i).send(message.mentions.users.first() + `, Tu à été mentionné par ` + message.author);
+                        }
+                    });
                 }
             } else {
                 let c = channels['IRCs'].indexOf(i);
